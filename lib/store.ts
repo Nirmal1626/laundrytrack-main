@@ -1,4 +1,4 @@
-import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import type { UserRole } from './auth';
 import type { OrderStatus } from './order-types';
@@ -125,7 +125,6 @@ async function writeStore(store: StoreData) {
   await mkdir(dataDir, { recursive: true });
   const tempFile = path.join(dataDir, `store.${process.pid}.tmp`);
   await writeFile(tempFile, JSON.stringify(store, null, 2), 'utf8');
-  await rm(storeFile, { force: true });
   await rename(tempFile, storeFile);
 }
 
