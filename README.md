@@ -40,4 +40,4 @@ Copy `.env.example` to `.env.local` and set `JWT_SECRET` to a unique random valu
 
 ## Stored data
 
-Orders, expenses, and password hashes are saved in `data/store.json` on the server. That file is local to this machine. Use a hosted database before putting real customer data on a shared server.
+On your own computer, orders, expenses, and password hashes are saved in `data/store.json`. On Vercel they are saved in a private Blob store connected to the project. A password chosen on this computer is not copied to the hosted site.

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifySessionToken, type SessionUser } from './auth';
+import { StoreError } from './store';
 import { AccountError } from './users';
 
 export async function readRequestUser(request: NextRequest): Promise<SessionUser | null> {
@@ -22,6 +23,9 @@ export function requireOwner(user: SessionUser | null) {
 }
 
 export function accountErrorResponse(error: unknown) {
+  if (error instanceof StoreError) {
+    return NextResponse.json({ error: error.message }, { status: 503 });
+  }
   if (error instanceof AccountError) {
     if (error.needsSetup) {
       return NextResponse.json({ needsSetup: true, name: error.accountName ?? '' }, { status: 409 });
